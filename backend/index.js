@@ -9,14 +9,24 @@ const cors = require("cors");
 const exp = require("constants");
 const { types } = require("util");
 const { type } = require("os");
+require("dotenv").config();
  
 app.use(express.json());
 app.use(cors());
 
-// mongodb+srv://sumit0099k:td7aspzDK1BbEfI4@cluster0.ipe3gnc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-mongoose.connect(
-  "mongodb+srv://sumit0099k:td7aspzDK1BbEfI4@cluster0.ipe3gnc.mongodb.net/e-commerce?retryWrites=true&w=majority&appName=Cluster0"
-);
+
+
+
+const mongoURI = process.env.MONGODB_URI;
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected...'))
+.catch((err) => console.log(err));
+
+
 
 app.get("/", (req, res) => {
   res.send("Express app is running");
